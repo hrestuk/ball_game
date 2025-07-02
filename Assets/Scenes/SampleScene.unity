@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 293815577}
   - component: {fileID: 293815581}
   - component: {fileID: 293815582}
+  - component: {fileID: 293815583}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -269,13 +270,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25e07fa0407c6e418e342173171ceb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballController: {fileID: 0}
+  ballForce: 20
+  jumpForce: 5
+  maxSpeed: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   sphereRadius: 0.5
-  ballForce: 20
-  jumpForce: 5
-  maxSpeed: 5
+--- !u!114 &293815583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293815576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d575c01a2af115d449af917d397cb0b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballTypeSettings:
+  - ballType: 0
+    ballSettings: {fileID: 11400000, guid: 8010654ee70785f4ebc72a119ee7df17, type: 2}
+  - ballType: 1
+    ballSettings: {fileID: 11400000, guid: 7f7e1faa2bfa9aa418a708b3977d58bc, type: 2}
+  - ballType: 2
+    ballSettings: {fileID: 11400000, guid: 9146617fddf796f458527c6720678af1, type: 2}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

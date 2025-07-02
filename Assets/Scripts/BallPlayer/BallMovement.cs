@@ -12,15 +12,17 @@ public class BallMovement : MonoBehaviour
     private Vector3 inputDirection;
     private Rigidbody rb;
 
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float sphereRadius = 0.5f;
+    [SerializeField] private BallController ballController;
 
-    [Header("Movement")]
+    [Header("BallSettings")]
     [SerializeField] private float ballForce = 5f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float ballMass = 1f;
 
     private bool isGrounded = true;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float sphereRadius = 0.5f;
 
     private void Awake()
     {
@@ -33,11 +35,13 @@ public class BallMovement : MonoBehaviour
         controller.Enable();
         move = controller.Player.Move;
         controller.Player.Jump.performed += OnJumpPerformed;
+        controller.Player.SwitchMode.performed += OnSwithModePerformed;
     }
 
     private void OnDisable()
     {
         controller.Player.Jump.performed -= OnJumpPerformed;
+        controller.Player.SwitchMode.performed -= OnSwithModePerformed;
         controller.Disable();
     }
 
@@ -75,6 +79,22 @@ public class BallMovement : MonoBehaviour
 
     }
 
+    public void Jump()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private void SetBallSettings()
+    {
+        ballForce = ballController.CurrentSettings.ballForce;
+        jumpForce = ballController.CurrentSettings.jumpForce;
+        maxSpeed = ballController.CurrentSettings.maxSpeed;
+        ballMass = ballController.CurrentSettings.ballMass;
+    }
+
     private void IsGrounded()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, (0.1f + sphereRadius) * transform.localScale.x, groundLayer);
@@ -85,11 +105,9 @@ public class BallMovement : MonoBehaviour
     {
         Jump();
     }
-    public void Jump()
+
+    private void OnSwithModePerformed(InputAction.CallbackContext context)
     {
-        if (isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        ballController.SwitchMode();
     }
 }
