@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f533f1c65be83e4e82cc61670092de1, type: 3}
   m_Name: MagneticBallSettings
   m_EditorClassIdentifier: 
-  ballForce: 0
-  ballMass: 0
-  maxSpeed: 0
-  jumpForce: 0
+  ballForce: 8
+  ballMass: 1
+  speed: 50
+  jumpForce: 5
