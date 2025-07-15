@@ -8,4 +8,5 @@ public class BallSettings : ScriptableObject
     public float ballMass;
     public float speed;
     public float jumpForce;
+    public float radius;
 }

@@ -567,7 +567,7 @@ Transform:
   m_GameObject: {fileID: 293815576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.82, y: 1.76, z: -11.22}
+  m_LocalPosition: {x: 0.82, y: 1.76, z: -9.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -598,7 +598,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &293815582
 MonoBehaviour:
@@ -612,15 +612,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25e07fa0407c6e418e342173171ceb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballTransform: {fileID: 293815580}
   ballController: {fileID: 293815583}
   ballForce: 3
   jumpForce: 5
   speed: 15
   ballMass: 1
+  sphereRadius: 0.5
+  rotationSpeed: 4
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  sphereRadius: 0.5
   magneticLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1892,15 +1894,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25e07fa0407c6e418e342173171ceb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballTransform: {fileID: 1132670219}
   ballController: {fileID: 1980078431}
   ballForce: 3
   jumpForce: 5
   speed: 15
   ballMass: 1
+  sphereRadius: 0.5
+  rotationSpeed: 12
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  sphereRadius: 0.5
   magneticLayer:
     serializedVersion: 2
     m_Bits: 64

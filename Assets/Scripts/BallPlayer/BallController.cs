@@ -9,7 +9,12 @@ public class BallController : MonoBehaviour
     private BallType currentType;
     private BallSettings currentSettings;
 
-    public BallSettings CurrentSettings => currentSettings;
+    public BallSettings CurrentSettings
+    {
+        get { return currentSettings; }
+        set { currentSettings = value; }
+
+    }
     public BallType CurrentType => currentType;
 
     private Rigidbody rb;
@@ -40,6 +45,28 @@ public class BallController : MonoBehaviour
                 if (currentType == BallType.Magnetic)
                     rb.useGravity = false;
 
+                currentSettings = item.ballSettings;
+                break;
+            }
+        }
+    }
+
+    public BallSettings GetSettingsForType(BallType type)
+    {
+        foreach (var item in ballTypeSettings)
+        {
+            if (item.ballType == type)
+                return item.ballSettings;
+        }
+        return null;
+    }
+    
+    public void SetCurrentSettings(BallType type)
+    {
+        foreach (var item in ballTypeSettings)
+        {
+            if (item.ballType == type)
+            {
                 currentSettings = item.ballSettings;
                 break;
             }
