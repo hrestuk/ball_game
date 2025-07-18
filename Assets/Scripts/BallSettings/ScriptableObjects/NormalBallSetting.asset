@@ -16,4 +16,5 @@ MonoBehaviour:
   ballMass: 1
   speed: 15
   jumpForce: 5
-  radius: 0.5
+  colliderRadius: 0.5
+  scale: 1
