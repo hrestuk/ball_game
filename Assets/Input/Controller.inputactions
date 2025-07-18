@@ -24,9 +24,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchMode",
+                    "name": "SwitchToNormalMode",
                     "type": "Button",
                     "id": "3b7ac7a5-24f3-4a66-949f-763ff37dac88",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchToHeavyMode",
+                    "type": "Button",
+                    "id": "92694eaa-4114-4199-a046-487cf0e8e888",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchToMagneticMode",
+                    "type": "Button",
+                    "id": "b1d1ad9d-9c51-447d-a037-cb0a8bbf7aa3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -114,11 +132,33 @@
                 {
                     "name": "",
                     "id": "ffb44aec-bd9a-4856-bf2f-70b801331344",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchToNormalMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e387afd-16fa-453e-96ca-b67b198a0e5d",
                     "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchMode",
+                    "action": "SwitchToHeavyMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3c2fae6-9ad6-44ca-870d-f2fdcc7bd6b3",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchToMagneticMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

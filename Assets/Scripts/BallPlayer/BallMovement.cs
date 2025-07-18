@@ -10,6 +10,7 @@ public class BallMovement : MonoBehaviour
     private Controller controller;
     private InputAction move;
     private Rigidbody rb;
+    private SphereCollider sphereCollider;
 
     [SerializeField] private Transform ballTransform;
     [SerializeField] private BallController ballController;
@@ -22,6 +23,8 @@ public class BallMovement : MonoBehaviour
     [SerializeField] private float sphereRadius = 0.5f;
     [SerializeField] private float rotationSpeed = 5f;
     [SerializeField] private float spinSpeed = 1f;
+    [SerializeField] private float ballScale = 1f;
+
     private bool isGrounded = true;
     [SerializeField] private LayerMask groundLayer;
 
@@ -36,6 +39,7 @@ public class BallMovement : MonoBehaviour
     {
         controller = new Controller();
         rb = GetComponent<Rigidbody>();
+        sphereCollider = GetComponent<SphereCollider>();
     }
 
     private void OnEnable()
@@ -43,13 +47,17 @@ public class BallMovement : MonoBehaviour
         controller.Enable();
         move = controller.Player.Move;
         controller.Player.Jump.performed += OnJumpPerformed;
-        controller.Player.SwitchMode.performed += OnSwithModePerformed;
+        controller.Player.SwitchToNormalMode.performed += OnSwitchNormalPerformed;
+        controller.Player.SwitchToHeavyMode.performed += OnSwitchHeavyPerformed;
+        controller.Player.SwitchToMagneticMode.performed += OnSwitchMagneticPerformed;
     }
 
     private void OnDisable()
     {
         controller.Player.Jump.performed -= OnJumpPerformed;
-        controller.Player.SwitchMode.performed -= OnSwithModePerformed;
+        controller.Player.SwitchToNormalMode.performed -= OnSwitchNormalPerformed;
+        controller.Player.SwitchToHeavyMode.performed -= OnSwitchHeavyPerformed;
+        controller.Player.SwitchToMagneticMode.performed -= OnSwitchMagneticPerformed;
         controller.Disable();
     }
 
@@ -73,19 +81,18 @@ public class BallMovement : MonoBehaviour
     //Ball direction
     private Vector3 CalculateDirection()
     {
-        if (!isGrounded)
-        {
-            return Vector3.zero;
-        }
+        
         Vector2 moveInput = move.ReadValue<Vector2>();
         moveInput = Vector2.ClampMagnitude(moveInput, 1f);
 
         Vector3 moveDir = new(moveInput.x, 0, moveInput.y);
 
+        if (!isGrounded)
+            return moveDir/2;
 
         return moveDir;
     }
-    
+
     //Magnetic Ball direction
     private Vector3 CalculateMagneticDirection()
     {
@@ -115,15 +122,17 @@ public class BallMovement : MonoBehaviour
     private Vector3 GetMoveDirection()
     {
         Vector3 moveDirection;
+        surfaceNormal = Vector3.up;
 
-        SetBallSettings();
         if (ballController.CurrentType == BallType.Magnetic)
         {
             TryMagnetStick();
 
             ballController.SetCurrentSettings(isStuck ? BallType.Magnetic : BallType.Normal);
 
+            SetBallSettings();
             moveDirection = isStuck ? CalculateMagneticDirection() : CalculateDirection();
+
         }
         else
         {
@@ -150,16 +159,21 @@ public class BallMovement : MonoBehaviour
         Rotation(rb.velocity);
     }
 
+   
+
     private void Rotation(Vector3 direction)
     {
         if (direction.sqrMagnitude < 0.01f)
             return;
 
+        if (surfaceNormal == Vector3.up)
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x,transform.eulerAngles.y,0);
+
         Quaternion targetRotation = Quaternion.LookRotation(direction, surfaceNormal);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
 
         float distance = rb.velocity.magnitude * Time.fixedDeltaTime;
-        float angle = (distance / sphereRadius*ballTransform.localScale.x * spinSpeed) * Mathf.Rad2Deg;
+        float angle = (distance / sphereRadius * ballTransform.localScale.x * spinSpeed) * Mathf.Rad2Deg;
 
         ballTransform.Rotate(Vector3.right, angle, Space.Self);
 
@@ -217,21 +231,30 @@ public class BallMovement : MonoBehaviour
     public void Jump()
     {
         if (isGrounded)
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce((Vector3.up) * jumpForce, ForceMode.Impulse);
     }
 
     private void SetBallSettings()
-    {
+    {   
         ballForce = ballController.CurrentSettings.ballForce;
         jumpForce = ballController.CurrentSettings.jumpForce;
         speed = ballController.CurrentSettings.speed;
         ballMass = ballController.CurrentSettings.ballMass;
-        sphereRadius = ballController.CurrentSettings.radius;
+        sphereRadius = ballController.CurrentSettings.colliderRadius;
+        ballScale = ballController.CurrentSettings.scale;
+
+        ApplySettings();
+    }
+
+    private void ApplySettings()
+    {
+        sphereCollider.radius = sphereRadius;
+        ballTransform.localScale = new(ballScale, ballScale, ballScale);
     }
 
     private void IsGrounded()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, (0.1f + sphereRadius) * ballTransform.localScale.x, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, (0.1f + sphereRadius), groundLayer);
         Debug.Log(isGrounded);
     }
 
@@ -240,8 +263,19 @@ public class BallMovement : MonoBehaviour
         Jump();
     }
 
-    private void OnSwithModePerformed(InputAction.CallbackContext context)
+    private void OnSwitchNormalPerformed(InputAction.CallbackContext context)
     {
-        ballController.SwitchMode();
+        ballController.SwitchToNormal();
+        SetBallSettings();
+    }
+    private void OnSwitchHeavyPerformed(InputAction.CallbackContext context)
+    {
+        ballController.SwitchToHeavy();
+        SetBallSettings();
+    }
+    private void OnSwitchMagneticPerformed(InputAction.CallbackContext context)
+    {
+        ballController.SwitchToMagnetic();
+        SetBallSettings();
     }
 }

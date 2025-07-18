@@ -9,12 +9,7 @@ public class BallController : MonoBehaviour
     private BallType currentType;
     private BallSettings currentSettings;
 
-    public BallSettings CurrentSettings
-    {
-        get { return currentSettings; }
-        set { currentSettings = value; }
-
-    }
+    public BallSettings CurrentSettings => currentSettings;
     public BallType CurrentType => currentType;
 
     private Rigidbody rb;
@@ -25,13 +20,22 @@ public class BallController : MonoBehaviour
         UpdateSettings();
     }
 
-    public void SwitchMode()
-    {
-        int currentIndex = (int)currentType;
-        int nextIndex = (currentIndex + 1) % Enum.GetValues(typeof(BallType)).Length;
 
-        currentType = (BallType)nextIndex;
-        Debug.Log("Current mode:" + currentType);
+    public void SwitchToNormal()
+    {
+        currentType = BallType.Normal;
+        UpdateSettings();
+    }
+    
+    public void SwitchToHeavy()
+    {
+        currentType = BallType.Heavy;
+        UpdateSettings();
+    }
+    
+    public void SwitchToMagnetic()
+    {
+        currentType = BallType.Magnetic;
         UpdateSettings();
     }
 
@@ -46,10 +50,13 @@ public class BallController : MonoBehaviour
                     rb.useGravity = false;
 
                 currentSettings = item.ballSettings;
+                Debug.Log(currentType);
                 break;
             }
         }
     }
+
+    
 
     public BallSettings GetSettingsForType(BallType type)
     {

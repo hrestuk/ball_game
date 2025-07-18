@@ -46,9 +46,27 @@ public partial class @Controller: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SwitchMode"",
+                    ""name"": ""SwitchToNormalMode"",
                     ""type"": ""Button"",
                     ""id"": ""3b7ac7a5-24f3-4a66-949f-763ff37dac88"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToHeavyMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""92694eaa-4114-4199-a046-487cf0e8e888"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToMagneticMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""b1d1ad9d-9c51-447d-a037-cb0a8bbf7aa3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -136,11 +154,33 @@ public partial class @Controller: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ffb44aec-bd9a-4856-bf2f-70b801331344"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToNormalMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e387afd-16fa-453e-96ca-b67b198a0e5d"",
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SwitchMode"",
+                    ""action"": ""SwitchToHeavyMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3c2fae6-9ad6-44ca-870d-f2fdcc7bd6b3"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToMagneticMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -153,7 +193,9 @@ public partial class @Controller: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_SwitchMode = m_Player.FindAction("SwitchMode", throwIfNotFound: true);
+        m_Player_SwitchToNormalMode = m_Player.FindAction("SwitchToNormalMode", throwIfNotFound: true);
+        m_Player_SwitchToHeavyMode = m_Player.FindAction("SwitchToHeavyMode", throwIfNotFound: true);
+        m_Player_SwitchToMagneticMode = m_Player.FindAction("SwitchToMagneticMode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -217,14 +259,18 @@ public partial class @Controller: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_SwitchMode;
+    private readonly InputAction m_Player_SwitchToNormalMode;
+    private readonly InputAction m_Player_SwitchToHeavyMode;
+    private readonly InputAction m_Player_SwitchToMagneticMode;
     public struct PlayerActions
     {
         private @Controller m_Wrapper;
         public PlayerActions(@Controller wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @SwitchMode => m_Wrapper.m_Player_SwitchMode;
+        public InputAction @SwitchToNormalMode => m_Wrapper.m_Player_SwitchToNormalMode;
+        public InputAction @SwitchToHeavyMode => m_Wrapper.m_Player_SwitchToHeavyMode;
+        public InputAction @SwitchToMagneticMode => m_Wrapper.m_Player_SwitchToMagneticMode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -240,9 +286,15 @@ public partial class @Controller: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @SwitchMode.started += instance.OnSwitchMode;
-            @SwitchMode.performed += instance.OnSwitchMode;
-            @SwitchMode.canceled += instance.OnSwitchMode;
+            @SwitchToNormalMode.started += instance.OnSwitchToNormalMode;
+            @SwitchToNormalMode.performed += instance.OnSwitchToNormalMode;
+            @SwitchToNormalMode.canceled += instance.OnSwitchToNormalMode;
+            @SwitchToHeavyMode.started += instance.OnSwitchToHeavyMode;
+            @SwitchToHeavyMode.performed += instance.OnSwitchToHeavyMode;
+            @SwitchToHeavyMode.canceled += instance.OnSwitchToHeavyMode;
+            @SwitchToMagneticMode.started += instance.OnSwitchToMagneticMode;
+            @SwitchToMagneticMode.performed += instance.OnSwitchToMagneticMode;
+            @SwitchToMagneticMode.canceled += instance.OnSwitchToMagneticMode;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -253,9 +305,15 @@ public partial class @Controller: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @SwitchMode.started -= instance.OnSwitchMode;
-            @SwitchMode.performed -= instance.OnSwitchMode;
-            @SwitchMode.canceled -= instance.OnSwitchMode;
+            @SwitchToNormalMode.started -= instance.OnSwitchToNormalMode;
+            @SwitchToNormalMode.performed -= instance.OnSwitchToNormalMode;
+            @SwitchToNormalMode.canceled -= instance.OnSwitchToNormalMode;
+            @SwitchToHeavyMode.started -= instance.OnSwitchToHeavyMode;
+            @SwitchToHeavyMode.performed -= instance.OnSwitchToHeavyMode;
+            @SwitchToHeavyMode.canceled -= instance.OnSwitchToHeavyMode;
+            @SwitchToMagneticMode.started -= instance.OnSwitchToMagneticMode;
+            @SwitchToMagneticMode.performed -= instance.OnSwitchToMagneticMode;
+            @SwitchToMagneticMode.canceled -= instance.OnSwitchToMagneticMode;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -277,6 +335,8 @@ public partial class @Controller: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnSwitchMode(InputAction.CallbackContext context);
+        void OnSwitchToNormalMode(InputAction.CallbackContext context);
+        void OnSwitchToHeavyMode(InputAction.CallbackContext context);
+        void OnSwitchToMagneticMode(InputAction.CallbackContext context);
     }
 }
