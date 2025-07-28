@@ -70,6 +70,7 @@ public class BallMovement : MonoBehaviour
 
         IsGrounded();
         MoveBall(moveDirection);
+        ChangeBallScale();
     }
 
 
@@ -159,7 +160,11 @@ public class BallMovement : MonoBehaviour
         Rotation(rb.velocity);
     }
 
-   
+    private void ChangeBallScale()
+    {
+        float newScale = Mathf.MoveTowards(ballTransform.localScale.x, ballScale, Time.fixedDeltaTime * 3f);
+        ballTransform.localScale = new(newScale, newScale, newScale);
+    }
 
     private void Rotation(Vector3 direction)
     {
