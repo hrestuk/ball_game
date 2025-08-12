@@ -6,6 +6,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     [SerializeField] private List<BallTypeSettings> ballTypeSettings;
+    [SerializeField] private MeshRenderer ballMesh;
     private BallType currentType;
     private BallSettings currentSettings;
 
@@ -26,13 +27,13 @@ public class BallController : MonoBehaviour
         currentType = BallType.Normal;
         UpdateSettings();
     }
-    
+
     public void SwitchToHeavy()
     {
         currentType = BallType.Heavy;
         UpdateSettings();
     }
-    
+
     public void SwitchToMagnetic()
     {
         currentType = BallType.Magnetic;
@@ -49,6 +50,7 @@ public class BallController : MonoBehaviour
                 if (currentType == BallType.Magnetic)
                     rb.useGravity = false;
 
+                ballMesh.material = item.ballMaterial;
                 currentSettings = item.ballSettings;
                 Debug.Log(currentType);
                 break;

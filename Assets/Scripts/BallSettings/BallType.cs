@@ -6,5 +6,6 @@ public enum BallType
 {
     Normal,
     Heavy,
-    Magnetic
+    Magnetic,
+    MagneticGrounded
 }

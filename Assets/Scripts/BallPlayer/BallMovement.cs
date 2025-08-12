@@ -22,7 +22,6 @@ public class BallMovement : MonoBehaviour
     [SerializeField] private float ballMass = 1f;
     [SerializeField] private float sphereRadius = 0.5f;
     [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] private float spinSpeed = 1f;
     [SerializeField] private float ballScale = 1f;
 
     private bool isGrounded = true;
@@ -89,7 +88,7 @@ public class BallMovement : MonoBehaviour
         Vector3 moveDir = new(moveInput.x, 0, moveInput.y);
 
         if (!isGrounded)
-            return moveDir/2;
+            return moveDir/2.3f;
 
         return moveDir;
     }
@@ -129,7 +128,7 @@ public class BallMovement : MonoBehaviour
         {
             TryMagnetStick();
 
-            ballController.SetCurrentSettings(isStuck ? BallType.Magnetic : BallType.Normal);
+            ballController.SetCurrentSettings(isStuck ? BallType.Magnetic : BallType.MagneticGrounded);
 
             SetBallSettings();
             moveDirection = isStuck ? CalculateMagneticDirection() : CalculateDirection();
@@ -178,7 +177,7 @@ public class BallMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
 
         float distance = rb.velocity.magnitude * Time.fixedDeltaTime;
-        float angle = (distance / sphereRadius * ballTransform.localScale.x * spinSpeed) * Mathf.Rad2Deg;
+        float angle = ((distance / sphereRadius) ) * Mathf.Rad2Deg;
 
         ballTransform.Rotate(Vector3.right, angle, Space.Self);
 
@@ -254,7 +253,7 @@ public class BallMovement : MonoBehaviour
     private void ApplySettings()
     {
         sphereCollider.radius = sphereRadius;
-        ballTransform.localScale = new(ballScale, ballScale, ballScale);
+        rb.mass = ballMass;
     }
 
     private void IsGrounded()

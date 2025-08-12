@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f533f1c65be83e4e82cc61670092de1, type: 3}
   m_Name: HeavyBallSettings
   m_EditorClassIdentifier: 
-  ballForce: 1
-  ballMass: 5
+  ballForce: 3
+  ballMass: 4
   speed: 10
-  jumpForce: 3
-  colliderRadius: 1
-  scale: 2
+  jumpForce: 4
+  colliderRadius: 0.8
+  scale: 1.6

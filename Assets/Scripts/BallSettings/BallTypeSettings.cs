@@ -6,4 +6,5 @@ public class BallTypeSettings
 {
     public BallType ballType;
     public BallSettings ballSettings;
+    public Material ballMaterial;
 }
