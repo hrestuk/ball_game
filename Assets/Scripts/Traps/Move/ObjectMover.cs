@@ -9,10 +9,9 @@ public class ObjectMover : MonoBehaviour
     [SerializeField] private Vector3 moveDirection;
     [SerializeField] private float area = 10f;
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float timeOffset = 0f;
 
     private Vector3 startPos;
-
-
     private void Start()
     {
         startPos = transform.position;
@@ -25,7 +24,7 @@ public class ObjectMover : MonoBehaviour
 
     private void MoveObject()
     {
-        Vector3 offset = moveDirection * MathF.Sin(speed * Time.time) * area;
+        Vector3 offset = moveDirection * MathF.Sin(speed * Time.time + timeOffset) * area;
         transform.position = startPos + offset;
     }
 
