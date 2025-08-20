@@ -1,0 +1,3 @@
+Name "LevelUnlocker" for script that unlock levels. Check if it was completed;
+Name "LevelLoader" fro script that load levels. Include methods: RestartLevel, NextLevel, LoadLevel(int index);
+
