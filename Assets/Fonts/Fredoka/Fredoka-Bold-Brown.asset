@@ -114,7 +114,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fredoka-Bold SDF Atlas
+  m_Name: Fredoka-Bold-Brown Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -166,11 +166,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Fredoka-Bold SDF
+  m_Name: Fredoka-Bold-Brown
   m_EditorClassIdentifier: 
-  hashCode: -52766327
+  hashCode: -1731768877
   material: {fileID: -8070847998994773621}
-  materialHashCode: 1122990729
+  materialHashCode: 1664660755
   m_Version: 1.1.0
   m_SourceFontFileGUID: 7e70afe31a31bc34ab10697166bc81d6
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 7e70afe31a31bc34ab10697166bc81d6,
@@ -2780,7 +2780,7 @@ MonoBehaviour:
     atlasHeight: 512
     characterSetSelectionMode: 0
     characterSequence: 32 - 126, 160, 8203, 8230, 9633
-    referencedFontAssetGUID: 
+    referencedFontAssetGUID: 24540c28eaf5f1b4e824044ed2ddad5f
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
